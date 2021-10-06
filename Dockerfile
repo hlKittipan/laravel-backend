@@ -1,8 +1,8 @@
-FROM php:8.0-fpm-alpine
+FROM php:7.4-fpm
 
 RUN docker-php-ext-install pdo
 
-RUN pecl install mongodb 
+RUN pecl install mongodb
 
 RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 

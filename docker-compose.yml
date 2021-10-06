@@ -1,24 +1,24 @@
 version: '3'
 
-networks: 
+networks:
   laravel:
 
-services: 
-  nginx: 
+services:
+  nginx:
     image: nginx:stable-alpine
     container_name: nginx
     ports:
       - "5000:80"
-    volumes: 
+    volumes:
       - ./:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
     networks:
       - laravel
-      
+
   php:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: php
@@ -28,12 +28,3 @@ services:
       - "9000:9000"
     networks:
       - laravel
-
-  composer: # เป็น container สำหรับการรัน install package laravel ที่จะสั่งรันครั้งเดียวแล้วหยุดรัน container ไป
-    build: # ใช้ dockerfile เดียวกันกับ container php
-      context: .
-      dockerfile: Dockerfile
-    working_dir: /var/www/html
-    volumes_from:
-      - php
-    command: "composer install" # คำสั่ง สำหรับ install package
